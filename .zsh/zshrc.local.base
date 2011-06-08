@@ -1,0 +1,4 @@
+[ -f ~/.zsh/vcs_info.zsh ] && source ~/.zsh/vcs_info.zsh
+[ -f ~/.zsh/incr-0.2.zsh ] && source ~/.zsh/incr-0.2.zsh
+[ -f ~/.zsh/notify.zsh ] && source ~/.zsh/notify.zsh
+

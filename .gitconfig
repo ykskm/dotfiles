@@ -1,0 +1,23 @@
+[alias]
+    ci = commit
+    cia = commit --amend -C HEAD
+    co = checkout
+    br = branch
+    st = status
+    lg = log --name-status
+
+[color]
+    diff = auto
+    branch = auto
+    status = auto
+    interactive = auto
+
+[core]
+    excludesfile = "~/.gitignore_global"
+
+[i18n]
+    commitencoding = utf-8
+
+[user]
+	name = ykskm
+	email = ykskm9@gmail.com

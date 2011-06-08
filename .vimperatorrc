@@ -1,0 +1,262 @@
+"
+" Options
+"
+set titlestring="Vimperator"
+set gui=bookmarks,tabs,noaddons,nomenu,nonavigation
+set defsearch=g
+set suggestengines=g
+set complete=slhfS
+set focuscontent
+set hintmatching=custom
+
+"
+" Maps
+"
+nnoremap j 5<C-e>
+nnoremap k 5<C-y>
+
+" command line history
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
+
+nnoremap <C-s> :set 
+nnoremap <leader>m :bmarks! 
+nnoremap <leader>b :buffer! 
+
+" search hilight
+nnoremap <Esc><Esc> :set nohlsearch<CR>
+nnoremap / :set hlsearch<CR>/
+nnoremap ? :set hlsearch<CR>?
+nnoremap * :set hlsearch<CR>*
+nnoremap # :set hlsearch<CR>#
+
+" silence bothersome default maps
+nnoremap <C-k> <Nop>
+inoremap <C-p> <Nop>
+
+" tab group
+nnoremap <leader>gg :tabgroups 
+nnoremap <leader>ga :tabgroups add 
+nnoremap <leader>gl :tabgroups pulltab 
+nnoremap <leader>gp :tabgroups pushtab 
+nnoremap <leader>gr :tabgroups remove 
+nnoremap <leader>gs :tabgroups switch 
+nnoremap <leader>gn :tabgroups 1switch<CR>
+
+"
+" Style
+"
+hi StatusLine color: black; background: #aaa;
+hi -append Hint font-size: 16px;
+
+"
+" Plugins
+"
+
+" subscldr
+nnoremap <leader>s :subscldr -rate=
+nnoremap <leader>S :subscfl -rate=
+
+" multi requestor
+let g:multi_requester_default_sites = 'alc'
+nnoremap <leader>e :mr alc 
+
+" feedSomeKeys_3
+command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
+lazy fmaps -u='(fastladder|livedoor)\.com/reader' j k s a p o v c i,p <Space> <S-Space> z b < > q w e,g
+lazy fmaps -u='duckduckgo\.com' -events=vkeydown,vkeyup j k h l o v d s r m
+
+" direct bookmark
+let g:direct_sbm_use_services_by_post = "d"
+let g:direct_sbm_use_services_by_tag = "d"
+nnoremap s :sbm -s d [
+
+" commandBookmarklet
+nnoremap <C-r> :bmlreaditlater<CR>
+
+" copy
+js <<EOM
+liberator.globalVariables.copy_templates = [
+  // default 
+  { label: 'titleAndURL',    value: '%TITLE%\n%URL%' },
+  { label: 'title',          value: '%TITLE%' },
+  { label: 'anchor',         value: '<a href="%URL%">%TITLE%</a>' },
+  { label: 'selanchor',      value: '<a href="%URL%" title="%TITLE%">%SEL%</a>' },
+  { label: 'htmlblockquote', value: '<blockquote cite="%URL%" title="%TITLE%">%HTMLSEL%</blockquote>' },
+  { label: 'ASIN',   value: 'copy ASIN code from Amazon', custom: function(){return content.document.getElementById('ASIN').value;} },
+  // custom
+  { label: 'pukiwki', value: '[[%TITLE%>%URL%]]' },
+];
+EOM
+
+"
+" Simple Utilities
+"
+js modules.__defineGetter__("doc", function() content.document)
+js modules.__defineGetter__("win", function() content.window)
+js <<EOM
+modules.formatElement = function(elem) {
+    var res = elem.tagName.toLowerCase();
+    if (elem.id) res += " id='"+ elem.id +"'";
+    if (elem.className) res += " class='"+ elem.className +"'";
+    var len = elem.attributes.length;
+    for (var i = 0; i < len; i++) {
+        var attr = elem.attributes[i];
+        if (attr.name != 'id' && attr.name != 'class') {
+            res += " " + attr.name + "='" + attr.value + "'";
+        }
+    }
+    return res;
+}
+
+modules.qsa = function(expr){
+    return Array.prototype.slice.apply(doc.querySelectorAll(expr), null).map(formatElement);
+}
+modules.qs = function(expr){
+    return doc.querySelector(expr);
+}
+modules.$ = modules.qsa;
+EOM
+
+js <<EOM
+commands.addUserCommand(
+    ["qs", "querySelector"],
+    "execute content.document.querySelector",
+    function(args) {
+        liberator.echo(formatElement(qs(args[0])));
+    },
+    {
+        literal: 0,
+        completer: function (context) {
+            if (plugins.completeQuerySelector) {
+                plugins.completeQuerySelector.complete(context, content.document);
+            }
+        }
+    }, true);
+
+commands.addUserCommand(
+    ["qsa", "querySelectorAll"],
+    "execute content.document.querySelectorAll",
+    function(args) {
+        function formatIndex(index, max_index) {
+            var len = max_index.toString().length - index.toString().length;
+            var res = index.toString();
+            for (var i = 0; i < len; i++) {
+                res = '_' + res;
+            }
+            return res;
+        }
+
+        var elems = Array.prototype.slice.apply(doc.querySelectorAll(args[0]), null);
+        var max_index = elems.length - 1;
+
+        var res = <ul></ul>;
+        elems.forEach(function(e, i) {
+            res.appendChild(<li>{formatIndex(i, max_index) + ": " + formatElement(e)}</li>);
+        });
+        var x = new XMLList();
+        x += <h1>{'querySelectorAll("'+ args[0] + '") : ' + elems.length + ' elements'}</h1>;
+        x += res;
+        x += <h1>End</h1>;
+        liberator.echo(x);
+    },
+    {
+        literal: 0,
+        completer: function (context) {
+            if (plugins.completeQuerySelector) {
+                plugins.completeQuerySelector.complete(context, content.document);
+            }
+        }
+    }, true);
+EOM
+
+" Fuzzy Tab Switch
+js <<EOM
+mappings.addUserMap(
+    [modes.NORMAL],
+    ["<C-f>"],
+    "Fuzzy Tab Switch",
+    function(argument){
+        tab_length = tabs.count;
+        if(isNaN(input = parseInt(argument))){
+            switch(argument){
+                case "a": input = 1; break;
+                case "s": input = 2; break;
+                case "d": input = 3; break;
+                case "f": input = 4; break;
+                case "g": input = 5; break;
+                case "h": input = 6; break;
+                case "j": input = 7; break;
+                case "k": input = 8; break;
+                case "l": input = 9; break;
+                case ";": input = 0; break;
+                defalut:
+                    liberator.echoerr("Invalid input.");
+                    return;
+            }
+        }
+
+        if(input == 0) input = 10;
+        fuzzy_tab_index = Math.round(tab_length * input / 10);
+        tabs.select(fuzzy_tab_index -1);
+    },
+    {
+        arg: true
+    }
+);
+EOM
+
+js <<EOM
+commands.addUserCommand(
+    ["key[word]"],
+    "",
+    function(args){
+        if(!args[0]) return;
+
+        urls = [
+            "http://b.hatena.ne.jp/t/"+ args[0] +"?sort=eid",
+            "http://delicious.com/tag/"+ args[0]
+        ];
+        liberator.open(urls.join(", "), liberator.NEW_TAB);
+    },
+    {}, true);
+EOM
+
+js <<EOM
+commands.addUserCommand(
+    ["hatebu", "mention"],
+    "",
+    function(){
+        var url = win.location.href;
+        var hatebu = url.replace(/https?:\/\//, "");
+        liberator.open("http://b.hatena.ne.jp/entry/" + hatebu, liberator.NEW_TAB);
+
+        var backtweets = encodeURIComponent(url);
+        liberator.open("http://backtweets.com/search?q=" + backtweets, liberator.NEW_TAB);
+    },
+    {}, true);
+EOM
+
+js <<EOM
+commands.addUserCommand(
+    ["fd", "freedict"],
+    "the free dictionary",
+    function(args){
+        if (!args[0]) return;
+
+        liberator.open("http://www.thefreedictionary.com/" + args[0], liberator.NEW_TAB);
+    },
+    {}, true);
+EOM
+
+js <<EOM
+commands.addUserCommand(
+    ["pdf"],
+    "html to pdf",
+    function(){
+        var url = encodeURI(content.location.href);
+        liberator.open("http://www.html2pdf.biz/freedemo.php?url=" + url, liberator.NEW_TAB);
+    },
+    {}, true);
+EOM
+
