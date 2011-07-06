@@ -59,7 +59,6 @@ nnoremap <leader>S :subscfl -rate=
 
 " multi requestor
 let g:multi_requester_default_sites = 'alc'
-nnoremap <leader>e :mr alc 
 
 " feedSomeKeys_3
 command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
@@ -88,6 +87,25 @@ liberator.globalVariables.copy_templates = [
   { label: 'pukiwki', value: '[[%TITLE%>%URL%]]' },
 ];
 EOM
+
+" _cmpl_by_content
+autocmd LocationChange .* :js liberator.plugins._cmpl_by_content.clear();
+js <<EOM
+commands.addUserCommand(
+    ["alc"],
+    "mr alc",
+    function (args) {
+        liberator.execute("mr alc " + args[0]);
+    },
+    {
+        completer: function(context, args) {
+            context.completions = liberator.plugins._cmpl_by_content.getCompletions();
+        }
+    },
+    true
+);
+EOM
+nnoremap <leader>e :alc 
 
 "
 " Simple Utilities
