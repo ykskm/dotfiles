@@ -1,3 +1,47 @@
+var PLUGIN_INFO =
+<VimperatorPlugin>
+    <name>{NAME}</name>
+    <description>ページ内の単語による入力補完を可能にします。</description>
+    <version>0.1</version>
+    <author mail="ykskm9@gmail.com">ykskm</author>
+    <license></license>
+    <detail><![CDATA[
+        === 概要 ===
+        コマンド入力時にページ内の単語による補完を可能にします。
+        候補になる単語は原則としてスペースで区切られた英単語のみで、日本語には対応していません。
+
+        === 準備 ===
+        .vimperatorrcに次の設定を書きます。
+        >||
+        autocmd LocationChange .* :js plugins.cmpl_with_content.clear();
+        ||<
+
+        === 使い方 ===
+        コマンドの補完候補生成に、 plugins.cmpl_with_content.getCompletions() を使います。
+        例えば、次のようなコマンドを作成すると、 mr alc の第3引数をページ内の単語で補完できます。
+        >||
+        commands.addUserCommand(
+            ["alc"],
+            "mr alc",
+            function (args) {
+                liberator.execute("mr alc " + args[0]);
+            },
+            {
+                completer: function(context, args) {
+                    context.completions = liberator.plugins.cmpl_with_content.getCompletions();
+                }
+            },
+            true
+        );
+        ||<
+
+        === 注意 ===
+        LocationChangeの後、はじめてgetCompletionsが呼び出された際に補完候補の生成を行います。
+        生成の際にはそのページのDOMツリー全体をトラバースするため、
+        ページによっては非常に時間がかかる場合があります。
+    ]]></detail>
+</VimperatorPlugin>;
+
 (function() {
 
 var WordDict = function() {
@@ -97,7 +141,7 @@ FrameTraverser.prototype.getNextSibling = function(node) {
 FrameTraverser.prototype.getParent = function(node) { return node.parent; }
 
 
-liberator.plugins._cmpl_by_content = {
+liberator.plugins.cmpl_with_content = {
     clear: function() {
         this.dict = null;
     },
@@ -160,7 +204,7 @@ liberator.plugins._cmpl_by_content = {
     }
 };
 
-//liberator.log(liberator.plugins._cmpl_by_content.getCompletions(), -1);
+//liberator.log(liberator.plugins.cmpl_with_content.getCompletions(), -1);
 
 })();
 

@@ -88,8 +88,8 @@ liberator.globalVariables.copy_templates = [
 ];
 EOM
 
-" _cmpl_by_content
-autocmd LocationChange .* :js liberator.plugins._cmpl_by_content.clear();
+" _cmpl_with_content
+autocmd LocationChange .* :js liberator.plugins.cmpl_with_content.clear();
 js <<EOM
 commands.addUserCommand(
     ["alc"],
@@ -99,7 +99,7 @@ commands.addUserCommand(
     },
     {
         completer: function(context, args) {
-            context.completions = liberator.plugins._cmpl_by_content.getCompletions();
+            context.completions = liberator.plugins.cmpl_with_content.getCompletions();
         }
     },
     true
