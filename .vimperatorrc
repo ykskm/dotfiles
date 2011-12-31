@@ -14,8 +14,8 @@ set hintmatching=custom
 "
 " Maps
 "
-nnoremap j 5<C-e>
-nnoremap k 5<C-y>
+nnoremap j 10<C-e>
+nnoremap k 10<C-y>
 
 " command line history
 cnoremap <C-p> <Up>
@@ -48,7 +48,7 @@ nnoremap <leader>gn :tabgroups 1switch<CR>
 "
 " Style
 "
-hi StatusLine color: black; background: #aaa;
+hi StatusLine font-size: 14px; color: black; background: #aaa;
 hi -append Hint font-size: 16px;
 
 "
