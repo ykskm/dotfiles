@@ -1,3 +1,5 @@
+set runtimepath=~/dotfiles/.vimperator
+
 "
 " Options
 "
