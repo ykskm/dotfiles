@@ -1,6 +1,6 @@
 var INFO =
 <plugin name="copy" version="0.7.6"
-        href="http://svn.coderepos.org/share/lang/javascript/vimperator-plugins/trunk/copy.js"
+        href="http://github.com/vimpr/vimperator-plugins/blob/master/copy.js"
         summary="copy strings from the template (like CopyURL+)"
         xmlns="http://vimperator.org/namespaces/liberator">
     <author email="teramako@gmail.com">teramako</author>
@@ -265,7 +265,7 @@ function wedataRegister(item){
 
             return function(value, value2){
                 var STORE_KEY = 'plugins-copy-ok-func';
-                var store = storage.newMap(STORE_KEY, true);
+                var store = storage.newMap(STORE_KEY, {store: true});
                 var check = store.get(item.label);
                 var ans;
 
@@ -390,7 +390,7 @@ if (liberator.globalVariables.copy_use_wedata){
         copy_templates.forEach(function(item) excludeLabelsMap[item.label] = item.value);
         if (liberator.globalVariables.copy_wedata_exclude_labels)
             liberator.globalVariables.copy_wedata_exclude_labels.forEach(function(item) excludeLabelsMap[item] = 1);
-        var wedata = new libly.Wedata("vimp%20copy");
+        var wedata = new libly.Wedata("vimp copy");
         wedata.getItems(24 * 60 * 60 * 1000, wedataRegister);
     }
     loadWedata();
