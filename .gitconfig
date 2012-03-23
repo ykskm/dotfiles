@@ -5,6 +5,8 @@
     br = branch
     st = status
     lg = log --name-status
+    d  = diff
+    dc = diff --cached
 
 [color]
     diff = auto
