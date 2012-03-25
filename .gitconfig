@@ -13,6 +13,12 @@
     branch = auto
     status = auto
     interactive = auto
+    sh = auto
+
+[color "sh"]
+    branch = green
+    workdir = blue bold
+    dirty = red
 
 [core]
     excludesfile = "~/.gitignore_global"
@@ -26,3 +32,4 @@
 [user]
 	name = ykskm
 	email = ykskm9@gmail.com
+
