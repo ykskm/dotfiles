@@ -32,7 +32,7 @@ PROMPTHOST="%m"
 PROMPTTTY=`tty | sed -e 's/^\/dev\///'`
 PROMPTUSER="${BLUE}%n"
 PROMPT="${DEFAULT}[${GREEN}%~$fg[black]%b] ${PROMPTUSER}${DEFAULT}@${PROMPTHOST} ${DEFAULT}<${PROMPTTTY}%b>%E
-%b%(?.%#.${RED}%#) "
+%b%(?.%#.${RED}%#${DEFAULT}) "
 SPROMPT="${RED}[!]${DEFAULT}Correct ${BLACK}> '%r' [%BY%bes %BN%bo %BA%bbort %BE%bdit] ? "
 
 # Ctrl-W conf
