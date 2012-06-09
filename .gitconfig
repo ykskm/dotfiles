@@ -5,6 +5,11 @@
     br = branch
     st = status
     lg = log --name-status
+    l1 = log -n 1
+    l2 = log -n 2
+    l3 = log -n 3
+    l4 = log -n 4
+    lp = log -p -n 1
     d  = diff
     dc = diff --cached
 
