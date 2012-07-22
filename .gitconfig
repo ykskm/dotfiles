@@ -5,13 +5,14 @@
     br = branch
     st = status
     lg = log --name-status
-    l1 = log -n 1
-    l2 = log -n 2
-    l3 = log -n 3
-    l4 = log -n 4
+    l1 = log --name-status -n 1
+    l2 = log --name-status -n 2
+    l3 = log --name-status -n 3
+    l4 = log --name-status -n 4
     lp = log -p -n 1
     d  = diff
     dc = diff --cached
+    au = add -u
 
 [color]
     diff = auto
