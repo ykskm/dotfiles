@@ -38,9 +38,19 @@ SPROMPT="${RED}[!]${DEFAULT}Correct ${BLACK}> '%r' [%BY%bes %BN%bo %BA%bbort %BE
 # Ctrl-W conf
 WORDCHARS='*?-.[]~=&;!#$%^(){}<>'
 
-alias ls='ls --color=auto'
-alias l='ls -lahF --color=auto'
-alias ll='ls -lhF --color=auto'
+case "${OSTYPE}" in
+darwin*)
+    alias ls='ls -G'
+    alias l='ls -lahFG'
+    alias ll='ls -lhFG'
+  ;;
+linux*)
+    alias ls='ls --color=auto'
+    alias l='ls -lahF --color=auto'
+    alias ll='ls -lhF --color=auto'
+  ;;
+esac
+
 alias pd=popd
 alias tmux='tmux -2' # to enable 256 colors
 
