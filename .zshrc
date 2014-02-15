@@ -130,8 +130,17 @@ function ls_abbrev() {
     fi
 }
 
+function print-git-status() {
+    if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" = 'true' ]; then
+        echo
+        echo -e "\e[0;33m--- git status ---\e[0m"
+        git status -sb
+    fi
+}
+
 chpwd() {
     ls_abbrev
+    print-git-status
 }
 
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
