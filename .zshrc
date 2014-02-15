@@ -65,5 +65,16 @@ bindkey "^P" history-beginning-search-backward-end
 bindkey "^N" history-beginning-search-forward-end
 bindkey "^[^[" send-break
 
-[ -f ~/.zsh/zshrc.local ] && source ~/.zsh/zshrc.local
+function use-auto-fu() {
+    if [ -f ~/.zsh/auto-fu.zsh ]; then
+        source ~/.zsh/auto-fu.zsh
+        function zle-line-init () {
+            auto-fu-init
+        }
+        zle -N zle-line-init
+        zstyle ':completion:*' completer _oldlist _complete
+    fi
+}
+
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
