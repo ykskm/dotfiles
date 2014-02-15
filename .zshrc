@@ -76,5 +76,16 @@ function use-auto-fu() {
     fi
 }
 
+function use-dircolors-solarized() {
+    DIRCOLORS=dircolors
+    if [ -f /usr/local/bin/gdircolors ]; then
+        DIRCOLORS=gdircolors
+    fi
+    if [ -f ~/.zsh/dircolors.256dark ]; then
+        eval $($DIRCOLORS ~/.zsh/dircolors.256dark)
+        zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+    fi
+}
+
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
