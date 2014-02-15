@@ -40,14 +40,21 @@ WORDCHARS='*?-.[]~=&;!#$%^(){}<>'
 
 case "${OSTYPE}" in
 darwin*)
-    alias ls='ls -G'
-    alias l='ls -lahFG'
-    alias ll='ls -lhFG'
+    # Note: should install GNU version by 'brew install coreutils'
+    if [ -f /usr/local/bin/gls ]; then
+        alias ls='gls -A --color=auto'
+        alias l='gls -lAhF --color=auto'
+        alias ll='gls -1AhF --color=auto'
+    else
+        alias ls='ls -AG'
+        alias l='ls -lAhFG'
+        alias ll='ls -1AhFG'
+    fi
   ;;
 linux*)
-    alias ls='ls --color=auto'
-    alias l='ls -lahF --color=auto'
-    alias ll='ls -lhF --color=auto'
+    alias ls='ls -A --color=auto'
+    alias l='ls -lAhF --color=auto'
+    alias ll='ls -1AhF --color=auto'
   ;;
 esac
 
