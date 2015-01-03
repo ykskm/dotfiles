@@ -293,6 +293,7 @@ afu_zles=( \
 )
 
 autoload +X keymap+widget
+autoload -U is-at-least
 
 () {
   setopt localoptions extendedglob no_shwordsplit
@@ -475,7 +476,10 @@ auto-fu-init () {
     [[ -z ${ps} ]] || POSTDISPLAY="$ps"
 
     afu-recursive-edit-and-accept
-    zle -I
+    if is-at-least 5.0.2; then
+    else
+      zle -I
+    fi
   } always {
     [[ -z ${ps} ]] || POSTDISPLAY=''
   }
