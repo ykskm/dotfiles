@@ -1,27 +1,4 @@
 // vim: set sw=4 ts=4 et :
-var INFO = //{{{
-<plugin name="complete-queryselector" version="0.0.1"
-        href="http://github.com/caisui/vimperator/blob/master/plugin/complete-queryselector.js"
-        summary="complete queryselector"
-        xmlns="http://vimperator.org/namespaces/liberator">
-    <author href="http://d.hatena.ne.jp/caisui">caisui</author>
-    <license href="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
-    <project name="Vimperator" minVersion="3.0"/>
-    <item>
-        <description>
-            <p>query selector で 補完ができるようになります</p>
-
-            Command の completer として利用例
-            <code><![CDATA[
-                commands.addUserCommand(["test"], "test", function (arg){}, {
-                    literal: 0,
-                    completer: function (context) plugins.completeQueryselector.complete(context, content.document)
-                }, true);
-            ]]></code>
-        </description>
-    </item>
-</plugin>;
-//}}}
 
 JavaScript.completers["querySelector"] = javascriptCompleterQuerySelector;
 JavaScript.completers["querySelectorAll"] = javascriptCompleterQuerySelector;

@@ -1,3 +1,4 @@
+/*
 var PLUGIN_INFO =
 <VimperatorPlugin>
     <name>{NAME}</name>
@@ -41,6 +42,7 @@ var PLUGIN_INFO =
         ページによっては非常に時間がかかる場合があります。
     ]]></detail>
 </VimperatorPlugin>;
+*/
 
 (function() {
 
