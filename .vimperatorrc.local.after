@@ -1,0 +1,26 @@
+" vim: set ft=vimperator:
+
+" set defsearch=y
+
+" nunmap <leader>s
+
+"
+" Style
+"
+hi StatusLine font-size:18px; color:black; background:#aaa;
+hi -append CmdLine font-size:18px;
+hi -append CmdOutput font-size:18px;
+hi -append CompDesc font-size:18px;
+hi -append CompGroup font-size:18px;
+hi -append CompItem font-size:18px;
+hi -append CompMsg font-size:18px;
+hi -append CompResult font-size:18px;
+hi -append CompTitle font-size:18px;
+hi -append Question font-size:18px;
+
+hi -append ErrorMsg font-size:18px;
+hi -append InfoMsg font-size:18px;
+hi -append ModeMsg font-size:18px;
+hi -append MoreMsg font-size:18px;
+hi -append WarningMsg font-size:18px;
+

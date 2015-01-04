@@ -1,4 +1,14 @@
 "
+" Prefs
+"
+set! browser.download.manager.showWhenStarting=false
+set! browser.tabs.closeWindowWithLastTab=false
+set! ui.key.contentAccess=0
+set! dom.popup_maximum=99999
+
+source ~/.vimperatorrc.local.before
+
+"
 " Options
 "
 set titlestring="Vimperator"
@@ -278,3 +288,4 @@ commands.addUserCommand(
     {}, true);
 EOM
 
+source ~/.vimperatorrc.local.after
