@@ -1,0 +1,9 @@
+[user]
+	name = xxxxx
+	email = xxxxx@xxxx.xxx
+
+[core]
+    editor = "PATH-OF-VIM"
+
+[http]
+    sslVerify = false

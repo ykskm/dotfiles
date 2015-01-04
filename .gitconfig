@@ -19,12 +19,6 @@
     branch = auto
     status = auto
     interactive = auto
-    sh = auto
-
-[color "sh"]
-    branch = green
-    workdir = blue bold
-    dirty = red
 
 [core]
     excludesfile = "~/.gitignore_global"
@@ -35,7 +29,5 @@
 [push]
     default = tracking
 
-[user]
-	name = ykskm
-	email = ykskm9@gmail.com
-
+[include]
+    path = "~/.gitconfig.local"
