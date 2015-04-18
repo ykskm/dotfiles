@@ -3,6 +3,7 @@
     cia = commit --amend -C HEAD
     co = checkout
     br = branch
+    s  = status -sb
     st = status
     lg = log --name-status
     l1 = log --name-status -n 1
