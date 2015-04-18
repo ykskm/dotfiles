@@ -210,10 +210,8 @@ function complete(context, obj) {
     context.anchored = false;
     obj = obj || content.document;
     let str = context.filter;
-    let sEnd = -1, sStart = 0, sFilter = 0, sLast, type = " ";
     let i = 0, sub;
     let selector = "";
-    let attr;
     let separator = [" ", "+", "~", ">"];
 
     let [, type, sStart, sEnd, sFilter, extra] = parseSelector(0, context.filter);
