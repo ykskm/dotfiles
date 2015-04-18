@@ -12,9 +12,9 @@ source ~/.vimperatorrc.local.before
 " Options
 "
 set titlestring="Vimperator"
-set gui=bookmarks,tabs,noaddons,nomenu,nonavigation
-set defsearch=g
-set suggestengines=g
+set gui=nobookmarks,tabs,noaddons,nomenu,nonavigation
+set defsearch=google
+set suggestengines=google
 set complete=slhfS
 set focuscontent
 set hintmatching=custom
@@ -166,27 +166,15 @@ commands.addUserCommand(
     ["qsa", "querySelectorAll"],
     "execute content.document.querySelectorAll",
     function(args) {
-        function formatIndex(index, max_index) {
-            var len = max_index.toString().length - index.toString().length;
-            var res = index.toString();
-            for (var i = 0; i < len; i++) {
-                res = '_' + res;
-            }
-            return res;
-        }
-
         var elems = Array.prototype.slice.apply(doc.querySelectorAll(args[0]), null);
-        var max_index = elems.length - 1;
-
-        var res = <ul></ul>;
-        elems.forEach(function(e, i) {
-            res.appendChild(<li>{formatIndex(i, max_index) + ": " + formatElement(e)}</li>);
-        });
-        var x = new XMLList();
-        x += <h1>{'querySelectorAll("'+ args[0] + '") : ' + elems.length + ' elements'}</h1>;
-        x += res;
-        x += <h1>End</h1>;
-        liberator.echo(x);
+        var res = xml`<ul style="padding-left:10px;list-style-type:none;">
+            ${
+                modules.template.map(elems, function(e) {
+                    return xml`<li>${ formatElement(e) }</li>`
+                })
+            }
+            </ul>`;
+        liberator.echo(res);
     },
     {
         literal: 0,
